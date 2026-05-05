@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приветственное приложение | Django Greeting</title>
+    <link rel="stylesheet" href="{% static 'greeting_app/css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="bg-gradient"></div>
+        
+        <div class="greeting-card">
+            <div class="card-header">
+                <div class="icon">👋</div>
+                <h1>Добро пожаловать!</h1>
+                <p>Представьтесь, пожалуйста</p>
+            </div>
+            
+            <!-- Форма с CSRF защитой -->
+            <form method="POST" class="greeting-form" novalidate>
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">
+                        <span>🌟</span> Ваше имя
+                    </label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error-message">
+                            {% for error in form.name.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <span>🚀</span> Отправить
+                </button>
+            </form>
+            
+            <!-- Сообщения -->
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            
+            <!-- Персонализированное приветствие -->
+            {% if last_user %}
+                <div class="greeting-message">
+                    <div class="greeting-icon">🎉</div>
+                    <div class="greeting-text">
+                        <h3>Персонализированное приветствие</h3>
+                        <p>Привет, <strong>{{ last_user.name }}</strong>!</p>
+                        <small>Ты наш <span class="highlight">особенный гость</span> ✨</small>
+                    </div>
+                </div>
+            {% endif %}
+            
+            <!-- Список гостей -->
+            {% if all_users %}
+                <div class="recent-users">
+                    <div class="recent-header">
+                        <span>📋</span>
+                        <h3>Недавние гости</h3>
+                    </div>
+                    <div class="users-list">
+                        {% for user in all_users %}
+                            <div class="user-item">
+                                <span class="user-avatar">👤</span>
+                                <span class="user-name">{{ user.name }}</span>
+                                <span class="user-time">{{ user.created_at|date:"d.m.Y H:i" }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="footer">
+            <p>© 2024 Django Greeting App | Защищено CSRF-токеном 🔒</p>
+        </div>
+    </div>
+</body>
+</html>
