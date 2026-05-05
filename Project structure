@@ -1,0 +1,25 @@
+django_greeting_project/
+├── manage.py
+├── db.sqlite3
+├── django_greeting_project/
+│   ├── __init__.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+├── greeting_app/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── apps.py
+│   ├── models.py
+│   ├── views.py
+│   ├── urls.py
+│   ├── forms.py
+│   └── migrations/
+│       └── __init__.py
+├── templates/
+│   └── greeting_app/
+│       └── index.html
+└── static/
+    └── greeting_app/
+        └── css/
+            └── style.css
